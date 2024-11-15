@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Product Gallery</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Product Gallery</h1>
+    <div class="container">
+        <!-- Search and Filter Options -->
+        <div class="controls">
+            <input type="text" id="search" placeholder="Search products..." onkeyup="filterProducts()">
+            <select id="sort" onchange="sortProducts()">
+                <option value="default">Sort By</option>
+                <option value="priceAsc">Price: Low to High</option>
+                <option value="priceDesc">Price: High to Low</option>
+            </select>
+        </div>
+
+        <!-- Product Gallery -->
+        <div id="product-gallery" class="product-gallery"></div>
+    </div>
+
+    <script>
+        // Sample product data
+        const products = [
+            { name: "Wireless Headphones", price: 59, category: "Electronics", image: "https://via.placeholder.com/150" },
+            { name: "Running Shoes", price: 89, category: "Apparel", image: "https://via.placeholder.com/150" },
+            { name: "Smart Watch", price: 129, category: "Electronics", image: "https://via.placeholder.com/150" },
+            { name: "Backpack", price: 49, category: "Accessories", image: "https://via.placeholder.com/150" },
+            { name: "Sunglasses", price: 19, category: "Accessories", image: "https://via.placeholder.com/150" },
+            { name: "Bluetooth Speaker", price: 79, category: "Electronics", image: "https://via.placeholder.com/150" },
+        ];
+
+        const productGallery = document.getElementById("product-gallery");
+
+        // Function to display products
+        function displayProducts(productsList) {
+            productGallery.innerHTML = "";
+            productsList.forEach(product => {
+                const productCard = document.createElement("div");
+                productCard.className = "product-card";
+                productCard.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>$${product.price}</p>
+                `;
+                productGallery.appendChild(productCard);
+            });
+        }
+
+        // Initial display
+        displayProducts(products);
+
+        // Filter function
+        function filterProducts() {
+            const searchQuery = document.getElementById("search").value.toLowerCase();
+            const filteredProducts = products.filter(product => product.name.toLowerCase().includes(searchQuery));
+            displayProducts(filteredProducts);
+        }
+
+        // Sort function
+        function sortProducts() {
+            const sortValue = document.getElementById("sort").value;
+            let sortedProducts = [...products];
+
+            if (sortValue === "priceAsc") {
+                sortedProducts.sort((a, b) => a.price - b.price);
+            } else if (sortValue === "priceDesc") {
+                sortedProducts.sort((a, b) => b.price - a.price);
+            }
+
+            displayProducts(sortedProducts);
+        }
+    </script>
+</body>
+</html>
